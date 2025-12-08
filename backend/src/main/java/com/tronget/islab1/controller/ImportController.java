@@ -4,6 +4,7 @@ import com.tronget.islab1.dto.ImportOperationDto;
 import com.tronget.islab1.service.ImportOperationService;
 import com.tronget.islab1.service.ImportService;
 import com.tronget.islab1.service.UserAccountService;
+import com.tronget.islab1.storage.StorageService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +19,16 @@ public class ImportController {
     private final ImportService importService;
     private final ImportOperationService importOperationService;
     private final UserAccountService userAccountService;
+    private final StorageService storageService;
 
     public ImportController(ImportService importService,
                             ImportOperationService importOperationService,
-                            UserAccountService userAccountService) {
+                            UserAccountService userAccountService,
+                            StorageService storageService) {
         this.importService = importService;
         this.importOperationService = importOperationService;
         this.userAccountService = userAccountService;
+        this.storageService = storageService;
     }
 
     @GetMapping
@@ -50,5 +54,29 @@ public class ImportController {
         var currentUser = userAccountService.getCurrentAccount();
         var operation = importOperationService.getOne(id, currentUser);
         return ResponseEntity.ok(importOperationService.toDto(operation));
+    }
+
+    @GetMapping("/{id}/file")
+    public ResponseEntity<?> downloadFile(@PathVariable Long id) {
+        var currentUser = userAccountService.getCurrentAccount();
+        var operation = importOperationService.getOne(id, currentUser);
+        String fileKey = operation.getFileKey();
+        if (fileKey == null) {
+            return ResponseEntity.notFound().build();
+        }
+        try {
+            var is = storageService.download(fileKey);
+            var resource = new org.springframework.core.io.InputStreamResource(is);
+            var builder = ResponseEntity.ok().header(
+                    "Content-Disposition",
+                    "attachment; filename=\"" + operation.getFileName() + "\""
+            );
+            if (operation.getFileSize() != null) {
+                builder.header("Content-Length", String.valueOf(operation.getFileSize()));
+            }
+            return builder.body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Failed to download file: " + e.getMessage());
+        }
     }
 }

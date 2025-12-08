@@ -3,6 +3,8 @@ package com.tronget.islab1.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +13,7 @@ import java.time.Instant;
 @Entity
 @Getter
 @Setter
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ImportOperation {
 
     @Id
@@ -35,6 +38,10 @@ public class ImportOperation {
     private int insertedRecords = 0;
 
     private String errorMessage;
+
+    private String fileKey;
+
+    private Long fileSize;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
