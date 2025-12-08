@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.ehcache.org/v3">
+
+    <cache alias="default">
+        <heap unit="entries">1000</heap>
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="org.hibernate.cache.spi.UpdateTimestampsCache">
+        <heap unit="entries">1000</heap>
+        <expiry>
+            <ttl unit="minutes">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.LabWork">
+        <heap unit="entries">1000</heap>
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.UserAccount">
+        <heap unit="entries">200</heap>
+        <expiry>
+            <ttl unit="minutes">60</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.Coordinates">
+        <heap unit="entries">500</heap>
+        <expiry>
+            <ttl unit="minutes">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.Discipline">
+        <heap unit="entries">500</heap>
+        <expiry>
+            <ttl unit="minutes">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.Person">
+        <heap unit="entries">500</heap>
+        <expiry>
+            <ttl unit="minutes">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.Location">
+        <heap unit="entries">500</heap>
+        <expiry>
+            <ttl unit="minutes">120</ttl>
+        </expiry>
+    </cache>
+
+    <cache alias="com.tronget.islab1.models.ImportOperation">
+        <resources>
+            <heap unit="entries">500</heap>
+        </resources>
+    </cache>
+</config>

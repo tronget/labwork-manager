@@ -34,7 +34,7 @@ public class ImportOperationService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void markSuccess(Long operationId, int insertedRecords) {
+    public void markSuccess(Long operationId, int insertedRecords, String fileKey, Long fileSize) {
         ImportOperation operation =
                 repository.findById(operationId)
                         .orElseThrow(()
@@ -43,6 +43,8 @@ public class ImportOperationService {
         operation.setInsertedRecords(insertedRecords);
         operation.setStatus(ImportStatus.SUCCESS);
         operation.setErrorMessage(null);
+        operation.setFileKey(fileKey);
+        operation.setFileSize(fileSize);
         repository.save(operation);
     }
 
@@ -84,6 +86,8 @@ public class ImportOperationService {
                 .status(operation.getStatus())
                 .username(operation.getUser().getUsername())
                 .fileName(operation.getFileName())
+                .fileKey(operation.getFileKey())
+                .fileSize(operation.getFileSize())
                 .totalRecords(operation.getTotalRecords())
                 .insertedRecords(operation.getInsertedRecords())
                 .errorMessage(operation.getErrorMessage())

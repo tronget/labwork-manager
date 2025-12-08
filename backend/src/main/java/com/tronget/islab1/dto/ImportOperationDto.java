@@ -13,6 +13,8 @@ public class ImportOperationDto {
     private ImportStatus status;
     private String username;
     private String fileName;
+    private String fileKey;
+    private Long fileSize;
     private int totalRecords;
     private int insertedRecords;
     private String errorMessage;

@@ -6,10 +6,28 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
+    type: org.apache.commons.dbcp2.BasicDataSource
+    dbcp2:
+      initial-size: 5
+      max-total: 20
+      validation-query: SELECT 1
+      test-on-borrow: true
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        cache:
+          use_second_level_cache: true
+          use_query_cache: false
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+        jcache:
+          provider: org.ehcache.jsr107.EhcacheCachingProvider
+      javax:
+        cache:
+          uri: classpath:ehcache.xml
 server:
   port: 9091
 
@@ -17,3 +35,13 @@ app:
   security:
     jwt-secret: ${APP_JWT_SECRET}
     jwt-expiration-seconds: ${APP_JWT_EXPIRATION:3600}
+  jpa:
+    second-level-cache:
+      # enable/disable printing of second-level cache statistics via AOP
+      log-statistics: false
+
+minio:
+  endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+  access-key: ${MINIO_ACCESS_KEY:minioadmin}
+  secret-key: ${MINIO_SECRET_KEY:minioadmin}
+  bucket: ${MINIO_BUCKET:imports}

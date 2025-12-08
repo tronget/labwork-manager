@@ -21,3 +21,7 @@ app:
 logging:
   level:
     root: WARN
+
+minio:
+  enabled: false
+  bucket-check-enabled: false

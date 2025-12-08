@@ -3,6 +3,8 @@ package com.tronget.islab1.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -11,6 +13,7 @@ import java.time.Instant;
 @Table(name = "user_accounts")
 @Getter
 @Setter
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserAccount {
 
     @Id

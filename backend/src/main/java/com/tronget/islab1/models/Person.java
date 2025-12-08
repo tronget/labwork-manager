@@ -5,11 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.List;
 
 @Entity
 @Data
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
